@@ -9,7 +9,7 @@
 class TodoManager {
     public $todoList = array();
 
-    public function addTodo($todo)
+    public function addTodo(Todo $todo)
     {
         $this->todoList[] = $todo;
     }

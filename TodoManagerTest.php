@@ -1,24 +1,29 @@
 <?php
 require_once "TodoManager.php";
+require_once "Todo.php";
 
-class TodoAddTest extends PHPUnit_Framework_TestCase{
-    private $todoList =
-        array(
-        'yesterdayTodo'=>"1番目のTODOデータ",
-        'todayTodo'=>"２番目のTODOデータ",
-        'tomorrowTodo'=>"２番目のTODOデータ"
+class TodoManagerTest extends PHPUnit_Framework_TestCase{
+    private $todoList;
+
+    public function setUp()
+    {
+        $this->todoList =  array(
+            'yesterdayTodo'=>new Todo("1番目のTODOデータ"),
+            'todayTodo'=>new Todo("２番目のTODOデータ"),
+            'tomorrowTodo'=>new Todo("３番目のTODOデータ")
         );
+    }
 
     public function test1件目のTODOを取得する()
     {
         $manager = $this->createTodoManagerHasTask();
-        $this->assertEquals($this->todoList["yesterdayTodo"], $manager->getTodo(1));
+        $this->assertSameTodo($this->todoList["yesterdayTodo"], $manager->getTodo(1));
     }
 
     public function test2件目のTODOを取得する()
     {
         $manager = $this->createTodoManagerHasTask();
-        $this->assertEquals($this->todoList["todayTodo"], $manager->getTodo(2));
+        $this->assertSameTodo($this->todoList["todayTodo"], $manager->getTodo(2));
     }
 
     public function testTODOの件数を取得する()
@@ -43,14 +48,14 @@ class TodoAddTest extends PHPUnit_Framework_TestCase{
         //昨日と今日と明日のやることを順番に登録した時
         $manager = $this->createTodoManagerHasTask();
         //先頭のやることを取得し 昨日のやることを取得できること。
-        $this->assertEquals($this->todoList["yesterdayTodo"], $manager->getFirstTodo());
+        $this->assertSameTodo($this->todoList["yesterdayTodo"], $manager->getFirstTodo());
     }
 
     public function test最後のTODOを取得する()
     {
         //昨日と今日と明日のやることを順番に登録した時
         $manager = $this->createTodoManagerHasTask();
-        $this->assertEquals($this->todoList["tomorrowTodo"], $manager->getLastTodo());
+        $this->assertSameTodo($this->todoList["tomorrowTodo"], $manager->getLastTodo());
 
     }
 
@@ -63,4 +68,10 @@ class TodoAddTest extends PHPUnit_Framework_TestCase{
         return $manager;
     }
 
+    public function assertSameTodo(Todo $expectedTodo, Todo $actualTodo)
+    {
+        $this->assertEquals($expectedTodo->title , $actualTodo->title);
+        $this->assertEquals($expectedTodo->detail, $actualTodo->detail);
+        $this->assertEquals($expectedTodo->getStatus() , $actualTodo->getStatus());
+    }
 }
