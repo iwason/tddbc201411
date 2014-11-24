@@ -38,4 +38,22 @@ class TodoManager {
     {
         return end($this->todoList);
     }
+
+    /**
+     * 最初のTodoを取り出し、Todoリストから削除する
+     * @return mixed
+     */
+    public function shiftTodo()
+    {
+        return array_shift($this->todoList);
+    }
+
+    /**
+     * 最後のTodoを取り出し、Todoリストから削除する
+     * @return mixed
+     */
+    public function popTodo()
+    {
+        return array_pop($this->todoList);
+    }
 }
