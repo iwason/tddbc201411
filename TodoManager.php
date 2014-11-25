@@ -7,6 +7,7 @@
  */
 
 class TodoManager {
+    /** @var array Todo */
     public $todoList = array();
 
     public function addTodo(Todo $todo)
@@ -56,4 +57,17 @@ class TodoManager {
     {
         return array_pop($this->todoList);
     }
+
+    public function deleteAll()
+    {
+       $this->todoList = array();
+    }
+
+    public function changeOrder(Todo $todo, $orderTo)
+    {
+        //todo 仮実装
+        array_splice($this->todoList,--$orderTo,0,array($todo));
+    }
+
+
 }

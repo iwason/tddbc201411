@@ -79,6 +79,24 @@ class TodoManagerTest extends PHPUnit_Framework_TestCase{
         $this->assertSameTodo($this->todoList["todayTodo"], $manager->getLastTodo());
     }
 
+    public function test全てのTodoを削除する()
+    {
+        $manager = $this->createTodoManagerHasTask();
+        $this->assertSameTodo($this->todoList["tomorrowTodo"], $manager->getLastTodo());
+        $manager->deleteAll();
+        $this->assertEmpty($manager->getTodoList());
+    }
+
+    public function testTodoの順番を変更する()
+    {
+
+        $manager = $this->createTodoManagerHasTask();
+        $this->assertSameTodo($this->todoList["yesterdayTodo"], $manager->getFirstTodo());
+        //最後に思いついたタスクが一番優先度が上がった
+        $manager->changeOrder($manager->getLastTodo(),1);
+        $this->assertSameTodo($this->todoList["tomorrowTodo"], $manager->getFirstTodo());
+    }
+
     public function createTodoManagerHasTask()
     {
         $manager = new TodoManager();
